@@ -6,6 +6,10 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.submissiongithubuser2"
         minSdkVersion 21
@@ -13,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "GITHUB_TOKEN", '"a048404d19ed76a34cb9ef37f59895f7590aeaff"'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,7 +34,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'

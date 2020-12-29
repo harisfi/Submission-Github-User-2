@@ -4,47 +4,37 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.submissiongithubuser2.databinding.ActivityDetailBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import cz.msebera.android.httpclient.Header;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_USER = "extra_user";
-
-    private ProgressBar progressBar;
-    private ImageView imgPhoto;
-    private TextView tvName, tvUsername;
-    private TabLayout tabDetail;
-    private View viewLine;
-    private ViewPager vpDetail;
+    private ActivityDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        binding = ActivityDetailBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        progressBar = findViewById(R.id.detail_progressbar);
-        imgPhoto = findViewById(R.id.img_detail_photo);
-        tvName = findViewById(R.id.tv_detail_name);
-        tvUsername = findViewById(R.id.tv_detail_username);
-        tabDetail = findViewById(R.id.tab_detail);
-        viewLine = findViewById(R.id.view_line);
-        vpDetail = findViewById(R.id.view_pager);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         User user = getIntent().getParcelableExtra(EXTRA_USER);
         String url = user.getUrl();
@@ -52,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         AsyncHttpClient client = new AsyncHttpClient();
 
         showLoading(true);
-        client.addHeader("Authorization", "token a048404d19ed76a34cb9ef37f59895f7590aeaff");
+        client.addHeader("Authorization", "token " + BuildConfig.GITHUB_TOKEN);
         client.addHeader("User-Agent", "request");
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
@@ -81,11 +71,11 @@ public class DetailActivity extends AppCompatActivity {
                     Glide.with(DetailActivity.this)
                             .load(userItem.getPhoto())
                             .apply(new RequestOptions().override(86, 86))
-                            .into(imgPhoto);
-                    tvName.setText(userItem.getName()
+                            .into(binding.imgDetailPhoto);
+                    binding.tvDetailName.setText(userItem.getName()
                             .compareToIgnoreCase("null") == 0 ?
                             userItem.getUsername() : userItem.getName());
-                    tvUsername.setText(userItem.getUsername());
+                    binding.tvDetailUsername.setText(userItem.getUsername());
                     setupTab(userItem);
                     DetailActivity.this.getSupportActionBar().setTitle(userItem.getUsername());
                 } catch (Exception e) {
@@ -125,9 +115,9 @@ public class DetailActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tab_detail);
         tabs.setupWithViewPager(viewPager);
-        tabs.getTabAt(1).getOrCreateBadge().setNumber(Integer.parseInt(user.getFollowers()));
-        tabs.getTabAt(2).getOrCreateBadge().setNumber(Integer.parseInt(user.getFollowing()));
-        getSupportActionBar().setElevation(0);
+        Objects.requireNonNull(tabs.getTabAt(1)).getOrCreateBadge().setNumber(Integer.parseInt(user.getFollowers()));
+        Objects.requireNonNull(tabs.getTabAt(2)).getOrCreateBadge().setNumber(Integer.parseInt(user.getFollowing()));
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
     }
 
     @Override
@@ -137,12 +127,12 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void showLoading(boolean state) {
-        progressBar.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
-        imgPhoto.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
-        tvName.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
-        tvUsername.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
-        tabDetail.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
-        viewLine.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
-        vpDetail.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.detailProgressbar.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
+        binding.imgDetailPhoto.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.tvDetailName.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.tvDetailUsername.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.tabDetail.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.viewLine.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
+        binding.viewPager.setVisibility(state ? View.INVISIBLE : View.VISIBLE);
     }
 }

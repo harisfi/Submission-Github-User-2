@@ -24,7 +24,7 @@ public class FollowersViewModel extends ViewModel {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.addHeader("Authorization", "token a048404d19ed76a34cb9ef37f59895f7590aeaff");
+        client.addHeader("Authorization", "token " + BuildConfig.GITHUB_TOKEN);
         client.addHeader("User-Agent", "request");
         client.get(url, new AsyncHttpResponseHandler() {
             @Override

@@ -4,16 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.submissiongithubuser2.databinding.FragmentFollowingBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 public class FollowingFragment extends Fragment {
@@ -21,13 +19,9 @@ public class FollowingFragment extends Fragment {
     public static final String EXTRA_FOLLOWING = "extra_following";
     private String url, following;
 
-    private RecyclerView rvFollowing;
-    private ListUserAdapter listUserAdapter;
-
     private FollowingViewModel followingViewModel;
-
-    private ProgressBar progressBar;
-    private TextView tvStatus;
+    private ListUserAdapter listUserAdapter;
+    private FragmentFollowingBinding binding;
 
     public FollowingFragment() {
     }
@@ -53,32 +47,25 @@ public class FollowingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_following, container, false);
+        binding = FragmentFollowingBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        progressBar = view.findViewById(R.id.progressbar_following);
-        tvStatus = view.findViewById(R.id.tv_following_status);
-
-        rvFollowing = view.findViewById(R.id.rv_following);
-        rvFollowing.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.rvFollowing.setLayoutManager(new LinearLayoutManager(view.getContext()));
         listUserAdapter = new ListUserAdapter();
         listUserAdapter.notifyDataSetChanged();
-        rvFollowing.setAdapter(listUserAdapter);
+        binding.rvFollowing.setAdapter(listUserAdapter);
 
-        listUserAdapter.setOnItemClickCallback(new ListUserAdapter.OnItemClickCallback() {
-            @Override
-            public void onItemClicked(User data) {
-                Snackbar snackbar = Snackbar.make(getView(), data.getName(), Snackbar.LENGTH_SHORT);
-                snackbar.show();
-            }
+        listUserAdapter.setOnItemClickCallback(data -> {
+            Snackbar snackbar = Snackbar.make(requireView(), data.getName(), Snackbar.LENGTH_SHORT);
+            snackbar.show();
         });
 
-        followingViewModel = new ViewModelProvider(getActivity(), new ViewModelProvider.NewInstanceFactory()).get(FollowingViewModel.class);
+        followingViewModel = new ViewModelProvider(requireActivity(), new ViewModelProvider.NewInstanceFactory()).get(FollowingViewModel.class);
 
         if (!following.equalsIgnoreCase("0")) {
             setStatus(0, null);
@@ -86,7 +73,7 @@ public class FollowingFragment extends Fragment {
             listUserAdapter.notifyDataSetChanged();
         } else setStatus(2, getResources().getString(R.string.no_following));
 
-        followingViewModel.getUsers().observe(getActivity(), users -> {
+        followingViewModel.getUsers().observe(requireActivity(), users -> {
             if (users != null) {
                 listUserAdapter.setData(users);
                 setStatus(1, null);
@@ -97,20 +84,20 @@ public class FollowingFragment extends Fragment {
     private void setStatus(int status, String message) {
         switch (status) {
             case 0: // loading
-                progressBar.setVisibility(View.VISIBLE);
-                rvFollowing.setVisibility(View.INVISIBLE);
-                tvStatus.setVisibility(View.INVISIBLE);
+                binding.progressbarFollowing.setVisibility(View.VISIBLE);
+                binding.rvFollowing.setVisibility(View.INVISIBLE);
+                binding.tvFollowingStatus.setVisibility(View.INVISIBLE);
                 break;
             case 1: // normal
-                progressBar.setVisibility(View.INVISIBLE);
-                rvFollowing.setVisibility(View.VISIBLE);
-                tvStatus.setVisibility(View.INVISIBLE);
+                binding.progressbarFollowing.setVisibility(View.INVISIBLE);
+                binding.rvFollowing.setVisibility(View.VISIBLE);
+                binding.tvFollowingStatus.setVisibility(View.INVISIBLE);
                 break;
             case 2: // message
-                progressBar.setVisibility(View.INVISIBLE);
-                rvFollowing.setVisibility(View.INVISIBLE);
-                tvStatus.setVisibility(View.VISIBLE);
-                tvStatus.setText(message);
+                binding.progressbarFollowing.setVisibility(View.INVISIBLE);
+                binding.rvFollowing.setVisibility(View.INVISIBLE);
+                binding.tvFollowingStatus.setVisibility(View.VISIBLE);
+                binding.tvFollowingStatus.setText(message);
                 break;
         }
     }

@@ -9,37 +9,33 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.submissiongithubuser2.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView rvUsers;
     private ListUserAdapter listUserAdapter;
-    private TextView tvStatus;
-    private ProgressBar progressbar;
+    private ActivityMainBinding binding;
     private MainViewModel mainViewModel;
     private String username;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
-        tvStatus = findViewById(R.id.tv_status);
-        progressbar = findViewById(R.id.progressbar);
-
-        rvUsers = findViewById(R.id.rv_users);
-        rvUsers.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvUsers.setLayoutManager(new LinearLayoutManager(this));
         listUserAdapter = new ListUserAdapter();
         listUserAdapter.notifyDataSetChanged();
-        rvUsers.setAdapter(listUserAdapter);
-        rvUsers.setHasFixedSize(true);
+        binding.rvUsers.setAdapter(listUserAdapter);
+        binding.rvUsers.setHasFixedSize(true);
 
         mainViewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(MainViewModel.class);
 
@@ -53,13 +49,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listUserAdapter.setOnItemClickCallback(new ListUserAdapter.OnItemClickCallback() {
-            @Override
-            public void onItemClicked(User data) {
-                Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
-                detailIntent.putExtra(DetailActivity.EXTRA_USER, data);
-                startActivity(detailIntent);
-            }
+        listUserAdapter.setOnItemClickCallback(data -> {
+            Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
+            detailIntent.putExtra(DetailActivity.EXTRA_USER, data);
+            startActivity(detailIntent);
         });
     }
 
@@ -113,20 +106,20 @@ public class MainActivity extends AppCompatActivity {
     private void setStatus(int status, String message) {
         switch (status) {
             case 0: // loading
-                progressbar.setVisibility(View.VISIBLE);
-                rvUsers.setVisibility(View.INVISIBLE);
-                tvStatus.setVisibility(View.INVISIBLE);
+                binding.progressbar.setVisibility(View.VISIBLE);
+                binding.rvUsers.setVisibility(View.INVISIBLE);
+                binding.tvStatus.setVisibility(View.INVISIBLE);
                 break;
             case 1: // stop loading
-                progressbar.setVisibility(View.INVISIBLE);
-                rvUsers.setVisibility(View.VISIBLE);
-                tvStatus.setVisibility(View.INVISIBLE);
+                binding.progressbar.setVisibility(View.INVISIBLE);
+                binding.rvUsers.setVisibility(View.VISIBLE);
+                binding.tvStatus.setVisibility(View.INVISIBLE);
                 break;
             case 2: // message
-                progressbar.setVisibility(View.INVISIBLE);
-                rvUsers.setVisibility(View.INVISIBLE);
-                tvStatus.setVisibility(View.VISIBLE);
-                tvStatus.setText(message);
+                binding.progressbar.setVisibility(View.INVISIBLE);
+                binding.rvUsers.setVisibility(View.INVISIBLE);
+                binding.tvStatus.setVisibility(View.VISIBLE);
+                binding.tvStatus.setText(message);
                 break;
         }
     }
