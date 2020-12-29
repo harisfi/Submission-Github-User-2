@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Submission Github User 2</string>
+    <string name="lorem">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="name">name</string>
+    <string name="username">username</string>
+    <string name="bio">BIO</string>
+    <string name="others">OTHERS</string>
+    <string name="_999999">999999</string>
+    <string name="repos">REPOSITORIES</string>
+    <string name="info">INFO</string>
+    <string name="followers">FOLLOWERS</string>
+    <string name="following">FOLLOWING</string>
+    <string name="company">company</string>
+    <string name="blog">blog</string>
+    <string name="location">location</string>
+    <string name="email">email</string>
+    <string name="search_hint">Search…</string>
+    <string name="search">Search</string>
+    <string name="user_not_found">User not found.</string>
+    <string name="start_search">Click \'search\' to start search.</string>
+    <string name="no_followers">This user doesn\'t have any followers.</string>
+    <string name="no_following">This user is not following anyone.</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="change_language_settings">Change Language Settings</string>
+</resources>

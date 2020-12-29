@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Submission Github User 2</string>
+    <string name="lorem">Lorem ipsum adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak. Maksud penggunaan lipsum adalah agar pengamat tidak terlalu berkonsentrasi kepada arti harfiah per kalimat, melainkan lebih kepada elemen desain dari teks yang dipresentasi.</string>
+    <string name="name">nama</string>
+    <string name="username">username</string>
+    <string name="bio">BIO</string>
+    <string name="others">LAINNYA</string>
+    <string name="_999999">999999</string>
+    <string name="repos">REPOSITORI</string>
+    <string name="info">INFO</string>
+    <string name="followers">PENGIKUT</string>
+    <string name="following">DIIKUTI</string>
+    <string name="company">perusahaan</string>
+    <string name="blog">blog</string>
+    <string name="location">lokasi</string>
+    <string name="email">email</string>
+    <string name="search_hint">Cari…</string>
+    <string name="search">Cari</string>
+    <string name="user_not_found">User tidak ditemukan.</string>
+    <string name="start_search">Klik \'cari\' untuk memulai pencarian.</string>
+    <string name="no_followers">User ini tidak memiliki pengikut.</string>
+    <string name="no_following">User ini tidak mengikuti siapapun.</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="change_language_settings">Ubah Pengaturan Bahasa</string>
+</resources>
